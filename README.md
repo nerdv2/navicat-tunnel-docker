@@ -1,7 +1,7 @@
 # Navicat HTTP Tunnel Docker Container
 
-[![Build & Publish Docker Image](https://github.com/USERNAME/navicat-tunnel/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/USERNAME/navicat-tunnel/actions)
-[![Docker Image Size](https://img.shields.io/docker/image-size/ghcr.io/USERNAME/navicat-tunnel/latest)](https://ghcr.io/USERNAME/navicat-tunnel)
+[![Build & Publish Docker Image](https://github.com/nerdv2/navicat-tunnel-docker/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/nerdv2/navicat-tunnel-docker/actions)
+[![Docker Image Size](https://img.shields.io/docker/image-size/ghcr.io/nerdv2/navicat-tunnel-docker/latest)](https://ghcr.io/nerdv2/navicat-tunnel-docker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A lightweight, secure, and production-optimized Docker image for hosting the **Navicat PHP HTTP Tunnel** script (`ntunnel_mysql.php`). Built on Alpine Linux with Nginx and PHP 8.3 FPM, designed to allow Navicat database management tools to securely access remote databases through HTTP/HTTPS.
@@ -28,7 +28,7 @@ docker run -d \
   --name navicat-tunnel \
   -p 8080:80 \
   --restart unless-stopped \
-  ghcr.io/USERNAME/navicat-tunnel:latest
+  ghcr.io/nerdv2/navicat-tunnel-docker:latest
 ```
 
 Open `http://localhost:8080/` in your browser to view the **Navicat System Environment Test** interface.
@@ -44,7 +44,7 @@ version: '3.8'
 
 services:
   navicat-tunnel:
-    image: ghcr.io/USERNAME/navicat-tunnel:latest
+    image: ghcr.io/nerdv2/navicat-tunnel-docker:latest
     container_name: navicat_tunnel
     restart: unless-stopped
     ports:
