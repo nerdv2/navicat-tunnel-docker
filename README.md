@@ -63,6 +63,68 @@ docker-compose up -d
 
 ---
 
+## HashiCorp Nomad
+
+Save the following as `navicat-tunnel.nomad.hcl` (or use the included [navicat-tunnel.nomad.hcl](file:///home/nerdv2/work/Personal/navicat/navicat-tunnel.nomad.hcl)):
+
+```hcl
+job "navicat-tunnel" {
+  datacenters = ["dc1"]
+  type        = "service"
+
+  group "web" {
+    count = 1
+
+    network {
+      port "http" {
+        to = 80
+      }
+    }
+
+    service {
+      name     = "navicat-tunnel"
+      port     = "http"
+      provider = "nomad"
+
+      check {
+        type     = "http"
+        name     = "navicat-tunnel-check"
+        path     = "/"
+        interval = "30s"
+        timeout  = "5s"
+      }
+    }
+
+    task "app" {
+      driver = "docker"
+
+      config {
+        image = "ghcr.io/nerdv2/navicat-tunnel-docker:latest"
+        ports = ["http"]
+      }
+
+      env {
+        ALLOW_TEST_MENU = "true"
+        # HTTP_AUTH_USER = "myuser"
+        # HTTP_AUTH_PASS = "mypassword"
+      }
+
+      resources {
+        cpu    = 100
+        memory = 128
+      }
+    }
+  }
+}
+```
+
+Run the job on your Nomad cluster:
+```bash
+nomad job run navicat-tunnel.nomad.hcl
+```
+
+---
+
 ## Environment Variables
 
 | Variable | Default | Description |
