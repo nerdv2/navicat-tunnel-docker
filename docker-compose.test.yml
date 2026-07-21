@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  navicat-tunnel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: navicat_tunnel_test
+    ports:
+      - "8080:80"
+    environment:
+      - ALLOW_TEST_MENU=true
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: navicat_mysql_test
+    environment:
+      MYSQL_ROOT_PASSWORD: testpassword
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpassword
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptestpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
